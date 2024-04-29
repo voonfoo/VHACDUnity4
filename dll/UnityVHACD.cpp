@@ -12,11 +12,19 @@ bool Compute(VHACD::IVHACD *iface,
              const uint32_t countPoints,
              const uint32_t *const triangles,
              const uint32_t countTriangles,
-             const VHACD::IVHACD::Parameters *params) {
+             VHACD::IVHACD::Parameters *params,
+             UnityVHACDUserCallback callback) {
+    UnityVhacdUserCallbackImpl *cb = nullptr;
+    if (callback) {
+        cb = new UnityVhacdUserCallbackImpl(callback);
+        params->m_callback = cb;
+    }
     iface->Compute(points, countPoints, triangles, countTriangles, *params);
     while (!iface->IsReady()) {
         std::this_thread::sleep_for(std::chrono::nanoseconds(10000)); // s
     }
+    if (callback)
+        delete cb;
     return iface->IsReady();
 }
 
@@ -25,18 +33,18 @@ uint32_t GetNConvexHulls(VHACD::IVHACD *iface) {
 }
 
 void GetConvexHull(UnityConvexHullSafetyHandle* handle, VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh) {
-    VHACD::IVHACD::ConvexHull *ch = new VHACD::IVHACD::ConvexHull();
+    auto *ch = new VHACD::IVHACD::ConvexHull();
     iface->GetConvexHull(index, *ch);
 
     *handle = reinterpret_cast<UnityConvexHullSafetyHandle>(&ch->m_points);
     unityCh->points = ch->m_points.data();
-    unityCh->n_points = ch->m_points.size();
+    unityCh->n_points = static_cast<int>(ch->m_points.size());
     unityCh->triangles = ch->m_triangles.data();
-    unityCh->n_triangles = ch->m_triangles.size();
+    unityCh->n_triangles = static_cast<int>(ch->m_triangles.size());
 }
 
 void ReleaseConvexHull(UnityConvexHullSafetyHandle handle) {
-    VHACD::IVHACD::ConvexHull* ch = reinterpret_cast<VHACD::IVHACD::ConvexHull*>(handle);
+    auto ch = reinterpret_cast<VHACD::IVHACD::ConvexHull*>(handle);
     delete ch;
 }
 

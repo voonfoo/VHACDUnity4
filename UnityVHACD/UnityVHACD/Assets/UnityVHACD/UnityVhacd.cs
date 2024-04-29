@@ -11,14 +11,16 @@ namespace Vhacd
 #elif (UNITY_IOS && !UNITY_EDITOR)
     private const string DLL_NAME = "__Internal";
 #endif
-
+        
+        public delegate void UserCallback(double overallProgress, double stageProgress, IntPtr stage, IntPtr operation);
+        
         [DllImport(DLLName)]
         public static extern IntPtr CreateVHACD(IntPtr param);
 
         [DllImport(DLLName)]
         public static extern unsafe bool Compute(IntPtr iVhacd, float* points, uint pointCount, uint* triangles,
             uint trianglesCount,
-            IntPtr param);
+            IntPtr param, IntPtr callback);
 
         [DllImport(DLLName)]
         public static extern uint GetNConvexHulls(IntPtr iVhacd);
