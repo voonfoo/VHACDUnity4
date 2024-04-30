@@ -16,7 +16,12 @@ set(HEADERS
 
 # Create the shared library
 message(${PROJECT_NAME})
-add_library(${PROJECT_NAME} SHARED UnityVHACD.cpp ${HEADERS})
+
+if (IOS)
+    add_library(${PROJECT_NAME} STATIC UnityVHACD.cpp ${HEADERS})
+else ()
+    add_library(${PROJECT_NAME} SHARED UnityVHACD.cpp ${HEADERS})
+endif ()
 
 install(TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION lib

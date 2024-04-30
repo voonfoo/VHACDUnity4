@@ -4,7 +4,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace Vhacd
 {
-    public static class UnityVhacd
+    public class UnityVhacd
     {
 #if UNITY_EDITOR
         private const string DLLName = "UnityVHACD";
@@ -34,6 +34,13 @@ namespace Vhacd
 
         [DllImport(DLLName)]
         public static extern void ReleaseVHACD(IntPtr iVhacd);
+
+        private IntPtr _vhacdPtr;
+
+        public UnityVhacd()
+        {
+            
+        }
     }
 
     public class ConvexHullSafeHandle : SafeHandleZeroOrMinusOneIsInvalid

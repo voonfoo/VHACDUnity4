@@ -4,22 +4,23 @@
 
 #if defined(_WIN32)
 #ifdef UNITY_VHACD_EXPORTS
-#define UNITYVHACD_API __declspec(dllexport)
+    #define UNITYVHACD_API __declspec(dllexport)
 #else
-        #define UNITYVHACD_API __declspec(dllimport)
+    #define UNITYVHACD_API __declspec(dllimport)
 #endif
 #elif defined(__APPLE__) || defined(__linux__)
 #if __GNUC__ >= 4
-        #define UNITYVHACD_API __attribute__ ((visibility ("default")))
+    #define UNITYVHACD_API __attribute__ ((visibility ("default")))
 #else
-        #define UNITYVHACD_API
+    #define UNITYVHACD_API
 #endif
 #else
-#error "Unknown compiler"
+    #error "Unknown compiler"
 #endif
 
 #define ENABLE_VHACD_IMPLEMENTATION 1
 #define VHACD_DISABLE_THREADING 0
+
 #include "VHACD.h"
 
 typedef intptr_t UnityConvexHullSafetyHandle;
@@ -31,10 +32,10 @@ struct UnityConvexHull {
     uint32_t n_triangles;
 };
 
-typedef UNITYVHACD_API void (*UnityVHACDUserCallback)(const double overallProgress,
-                                                      const double stageProgress,
-                                                      const char *stage,
-                                                      const char *operation);
+typedef void (*UnityVHACDUserCallback)(const double overallProgress,
+                                       const double stageProgress,
+                                       const char *stage,
+                                       const char *operation);
 
 class UnityVhacdUserCallbackImpl : public VHACD::IVHACD::IUserCallback {
     UnityVHACDUserCallback m_callback = nullptr;

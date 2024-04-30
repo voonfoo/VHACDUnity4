@@ -1,0 +1,932 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		6CFAAEF08E194380BC5FDB16 /* install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 35DBD2D29026456B94CB7E50 /* Build configuration list for PBXAggregateTarget "install" */;
+			buildPhases = (
+				93426DA6A4AC2C2AC9CE883C /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				61579CEAAA434B2C82FC5BEB /* PBXTargetDependency */,
+			);
+			name = install;
+			productName = install;
+		};
+		A9C033531EB34A2ABEE4DDE1 /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3CA1E3A9947F4FAFBE16B012 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				E7164A663B3C0E0C5882BA04 /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				1F5551FD62C4462591511DD6 /* PBXTargetDependency */,
+				3133F4F358914B10B99A30C0 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		B851560BC6724AA9883729E4 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F224B8FBC99245D8843D9DA3 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				3AA0722DEE6422B70D46C15D /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		3A71CF1CCBA745EB9DF356E8 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.cpp */ = {isa = PBXBuildFile; fileRef = 808CD373D9C5422F968B1C80 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.cpp */; };
+		4C2D244C8F5C421ABEF2E7F0 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.h */ = {isa = PBXBuildFile; fileRef = CE829B43D52E42B1909AA573 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.h */; };
+		D4EDF3D8CE9B44A5B4EF4E98 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeFiles/UnityVHACD.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = C3EF55B7D74641BA84D6DCA5 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeFiles/UnityVHACD.dir/Info.plist */; };
+		D6254B5C3ACB474AA0FD4CEE /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/VHACD.h */ = {isa = PBXBuildFile; fileRef = 68B856F46FAD4BC7B290455C /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/VHACD.h */; };
+		D7121CA1E8D84FAAB35E2B12 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = F8E8B49FAEB047E990E12A3E /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/CMakeLists.txt */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		1BEBDFEBA5B94CCCAD4C472F /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		D56517688DAB493F8F59DC71 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		F63177640D7D4183A254EF3E /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		F66C7601AABE4A5B8394A9C2 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		0009A66E1603451F81C85424 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 147E463BFCBD41308BE8C46E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B851560BC6724AA9883729E4;
+			remoteInfo = ZERO_CHECK;
+		};
+		0F3D6EBD865B4C3AA632549B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 147E463BFCBD41308BE8C46E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B851560BC6724AA9883729E4;
+			remoteInfo = ZERO_CHECK;
+		};
+		566D5BCDE0724FD9B9544B2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 147E463BFCBD41308BE8C46E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CA6101CD54734EC38FC0BED7;
+			remoteInfo = UnityVHACD;
+		};
+		FA0BCD8B2257416CA298759A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 147E463BFCBD41308BE8C46E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9C033531EB34A2ABEE4DDE1;
+			remoteInfo = ALL_BUILD;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		68B856F46FAD4BC7B290455C /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/VHACD.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = VHACD.h; path = VHACD.h; sourceTree = SOURCE_ROOT; };
+		7CF882EA58624E0FA9874986 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		808CD373D9C5422F968B1C80 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = UnityVHACD.cpp; path = UnityVHACD.cpp; sourceTree = SOURCE_ROOT; };
+		AA10A7BA424B4C92B1DDB504 /* UnityVHACD */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libUnityVHACD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3EF55B7D74641BA84D6DCA5 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeFiles/UnityVHACD.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = iosBuild/CMakeFiles/UnityVHACD.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		CE829B43D52E42B1909AA573 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = UnityVHACD.h; path = UnityVHACD.h; sourceTree = SOURCE_ROOT; };
+		F8E8B49FAEB047E990E12A3E /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B2DB7E38E1D24C7AA51359DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0680A39D30F148928FE1DD03 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				A90F222A22CA4B4DAC1A6CC5 /* CMake Rules */,
+				7CF882EA58624E0FA9874986 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		46D144AB1E174274B1446B39 = {
+			isa = PBXGroup;
+			children = (
+				6E78FC4D1014493F804DBD2F /* UnityVHACD */,
+				0680A39D30F148928FE1DD03 /* ALL_BUILD */,
+				86980FA90E6E4D88889649BA /* Products */,
+				E6BE916743144B5388D245BA /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6E78FC4D1014493F804DBD2F /* UnityVHACD */ = {
+			isa = PBXGroup;
+			children = (
+				CA810C4E9D95443E9D031AE1 /* Source Files */,
+				FF25E79DDD534BEFBE2582AA /* Header Files */,
+				8BEBA984BCA64C15B6E6EB7A /* Resources */,
+				F8E8B49FAEB047E990E12A3E /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/CMakeLists.txt */,
+			);
+			name = UnityVHACD;
+			sourceTree = "<group>";
+		};
+		86980FA90E6E4D88889649BA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA10A7BA424B4C92B1DDB504 /* UnityVHACD */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8BEBA984BCA64C15B6E6EB7A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C3EF55B7D74641BA84D6DCA5 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeFiles/UnityVHACD.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		A90F222A22CA4B4DAC1A6CC5 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		CA810C4E9D95443E9D031AE1 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				808CD373D9C5422F968B1C80 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		E6BE916743144B5388D245BA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FF25E79DDD534BEFBE2582AA /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE829B43D52E42B1909AA573 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.h */,
+				68B856F46FAD4BC7B290455C /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/VHACD.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CA6101CD54734EC38FC0BED7 /* UnityVHACD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39EFBAE99833491BB521F320 /* Build configuration list for PBXNativeTarget "UnityVHACD" */;
+			buildPhases = (
+				35EA673B1A6D4F18B996150B /* Sources */,
+				B2DB7E38E1D24C7AA51359DD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				54A8454D346B4B3B90DA0B48 /* PBXTargetDependency */,
+			);
+			name = UnityVHACD;
+			productName = UnityVHACD;
+			productReference = AA10A7BA424B4C92B1DDB504 /* UnityVHACD */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		147E463BFCBD41308BE8C46E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = 1A4D946E841D41B1B2ABE3A1 /* Build configuration list for PBXProject "UnityVHACD" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				F63177640D7D4183A254EF3E /* Debug */,
+				F66C7601AABE4A5B8394A9C2 /* Release */,
+				D56517688DAB493F8F59DC71 /* MinSizeRel */,
+				1BEBDFEBA5B94CCCAD4C472F /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 46D144AB1E174274B1446B39;
+			projectDirPath = "/Users/voon/Documents/GitHub/v-hacd-unity/dll";
+			projectRoot = "";
+			targets = (
+				A9C033531EB34A2ABEE4DDE1 /* ALL_BUILD */,
+				CA6101CD54734EC38FC0BED7 /* UnityVHACD */,
+				B851560BC6724AA9883729E4 /* ZERO_CHECK */,
+				6CFAAEF08E194380BC5FDB16 /* install */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3AA0722DEE6422B70D46C15D /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+"/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeFiles/ZERO_CHECK"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  make -f /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  make -f /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  make -f /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  make -f /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		87AF4882E018677E2624B544 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		93426DA6A4AC2C2AC9CE883C /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  /opt/homebrew/Cellar/cmake/3.27.4/bin/cmake -DBUILD_TYPE=$CONFIGURATION -DEFFECTIVE_PLATFORM_NAME=$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  /opt/homebrew/Cellar/cmake/3.27.4/bin/cmake -DBUILD_TYPE=$CONFIGURATION -DEFFECTIVE_PLATFORM_NAME=$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  /opt/homebrew/Cellar/cmake/3.27.4/bin/cmake -DBUILD_TYPE=$CONFIGURATION -DEFFECTIVE_PLATFORM_NAME=$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  /opt/homebrew/Cellar/cmake/3.27.4/bin/cmake -DBUILD_TYPE=$CONFIGURATION -DEFFECTIVE_PLATFORM_NAME=$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		E7164A663B3C0E0C5882BA04 /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+"/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/CMakeFiles/ALL_BUILD"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		35EA673B1A6D4F18B996150B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A71CF1CCBA745EB9DF356E8 /* /Users/voon/Documents/GitHub/v-hacd-unity/dll/UnityVHACD.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1F5551FD62C4462591511DD6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CA6101CD54734EC38FC0BED7 /* UnityVHACD */;
+			targetProxy = 566D5BCDE0724FD9B9544B2F /* PBXContainerItemProxy */;
+		};
+		3133F4F358914B10B99A30C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B851560BC6724AA9883729E4 /* ZERO_CHECK */;
+			targetProxy = 0F3D6EBD865B4C3AA632549B /* PBXContainerItemProxy */;
+		};
+		54A8454D346B4B3B90DA0B48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B851560BC6724AA9883729E4 /* ZERO_CHECK */;
+			targetProxy = 0009A66E1603451F81C85424 /* PBXContainerItemProxy */;
+		};
+		61579CEAAA434B2C82FC5BEB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9C033531EB34A2ABEE4DDE1 /* ALL_BUILD */;
+			targetProxy = FA0BCD8B2257416CA298759A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		085279BB7A68436B88228820 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		1A98D5F2EA1F411286A99E41 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/RelWithDebInfo${EFFECTIVE_PLATFORM_NAME}";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = " -fvisibility=hidden -fvisibility-inlines-hidden        -DNDEBUG '-std=c++11' ";
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = UnityVHACD;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/build/UnityVHACD.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		2EB99064D55A495A8D1F5204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				ENABLE_BITCODE = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk;
+				SYMROOT = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/build";
+				"VALID_ARCHS[sdk=iphoneos*]" = arm64;
+			};
+			name = Debug;
+		};
+		31A7E7933F7142BDA56E99CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		3B8687BD9C7B4555BBA566D4 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				ENABLE_BITCODE = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/build";
+				"VALID_ARCHS[sdk=iphoneos*]" = arm64;
+			};
+			name = RelWithDebInfo;
+		};
+		570AB9F7FA46404C9E5DF8AC /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		5B46A8E43EE1473F8C461FBD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/Release${EFFECTIVE_PLATFORM_NAME}";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = " -fvisibility=hidden -fvisibility-inlines-hidden     -DNDEBUG '-std=c++11' ";
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = UnityVHACD;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/build/UnityVHACD.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		5B888132107B4899ADCFD681 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		63520499A8E14A9A9B539B6F /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		719EA592A749411B84BE87FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		7BBD8D2CE20A4D1B9F3BECA8 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/MinSizeRel${EFFECTIVE_PLATFORM_NAME}";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = " -fvisibility=hidden -fvisibility-inlines-hidden     -DNDEBUG '-std=c++11' ";
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = UnityVHACD;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/build/UnityVHACD.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		8A0CA809F29F4F89AF77807E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		A0C7200E3DFD4C8EA7032EDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		A69EF81598484242A7392A78 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		AC80D40938F845E8AB219866 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		BA4C041BE4014C95AD2353A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				ENABLE_BITCODE = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/build";
+				"VALID_ARCHS[sdk=iphoneos*]" = arm64;
+			};
+			name = Release;
+		};
+		BC7E2E87533D4925887A307B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		E424C05602654E89A0175E2E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/Debug${EFFECTIVE_PLATFORM_NAME}";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = " -fvisibility=hidden -fvisibility-inlines-hidden    '-std=c++11' ";
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = UnityVHACD;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/build/UnityVHACD.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		EAF6780689A74591BB3DF43E /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		F9C736B3D7DB44908EB9BF9F /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				ENABLE_BITCODE = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/voon/Documents/GitHub/v-hacd-unity/dll/iosBuild/build";
+				"VALID_ARCHS[sdk=iphoneos*]" = arm64;
+			};
+			name = MinSizeRel;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1A4D946E841D41B1B2ABE3A1 /* Build configuration list for PBXProject "UnityVHACD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EB99064D55A495A8D1F5204 /* Debug */,
+				BA4C041BE4014C95AD2353A0 /* Release */,
+				F9C736B3D7DB44908EB9BF9F /* MinSizeRel */,
+				3B8687BD9C7B4555BBA566D4 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		35DBD2D29026456B94CB7E50 /* Build configuration list for PBXAggregateTarget "install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A0CA809F29F4F89AF77807E /* Debug */,
+				BC7E2E87533D4925887A307B /* Release */,
+				63520499A8E14A9A9B539B6F /* MinSizeRel */,
+				A69EF81598484242A7392A78 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		39EFBAE99833491BB521F320 /* Build configuration list for PBXNativeTarget "UnityVHACD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E424C05602654E89A0175E2E /* Debug */,
+				5B46A8E43EE1473F8C461FBD /* Release */,
+				7BBD8D2CE20A4D1B9F3BECA8 /* MinSizeRel */,
+				1A98D5F2EA1F411286A99E41 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3CA1E3A9947F4FAFBE16B012 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31A7E7933F7142BDA56E99CC /* Debug */,
+				AC80D40938F845E8AB219866 /* Release */,
+				570AB9F7FA46404C9E5DF8AC /* MinSizeRel */,
+				085279BB7A68436B88228820 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F224B8FBC99245D8843D9DA3 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				719EA592A749411B84BE87FC /* Debug */,
+				A0C7200E3DFD4C8EA7032EDA /* Release */,
+				5B888132107B4899ADCFD681 /* MinSizeRel */,
+				EAF6780689A74591BB3DF43E /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 147E463BFCBD41308BE8C46E /* Project object */;
+}

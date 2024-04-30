@@ -1,9 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Vhacd;
+using Debug = UnityEngine.Debug;
+using Task = System.Threading.Tasks.Task;
 
 public class TestVHACD : MonoBehaviour
 {
@@ -35,96 +41,121 @@ public class TestVHACD : MonoBehaviour
     private async void ComputeVhacd()
     {
         Mesh mesh = meshFilter.sharedMesh;
-        var verts = mesh.vertices;
-        var tris = mesh.triangles;
-        List<(Vector3[], int[])> convexHulls = new();
-        await UniTask.RunOnThreadPool(() =>
+        using (var meshDataArray = Mesh.AcquireReadOnlyMeshData(mesh))
+        {
+            for (int i = 0; i < meshDataArray.Length; i++)
+            {
+                var meshData = meshDataArray[i];
+                var vertices = new NativeArray<Vector3>(mesh.vertexCount, Allocator.Persistent);
+                meshData.GetVertices(vertices);
+                var indices = new NativeArray<int>((int) mesh.GetIndexCount(0), Allocator.Persistent);
+                meshData.GetIndices(indices, 0);
+
+                var convexHulls = await RunConvexDecomposition(vertices, indices);
+                CreateDecomposedMesh(convexHulls);
+
+                vertices.Dispose();
+                indices.Dispose();
+            }
+        }
+    }
+
+    private async Task<Mesh.MeshDataArray> RunConvexDecomposition(NativeArray<Vector3> vertices,
+        NativeArray<int> indices)
+    {
+        var parameters = VhacdParameters.Default;
+        IntPtr paramPtr = Marshal.AllocHGlobal(Marshal.SizeOf(parameters));
+        Marshal.StructureToPtr(parameters, paramPtr, false);
+        var iVhacd = UnityVhacd.CreateVHACD(paramPtr);
+        var cb = new UnityVhacd.UserCallback(UserCallback);
+        var cbPtr = Marshal.GetFunctionPointerForDelegate(cb);
+
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        bool computeVhacd = false;
+        await Task.Run(() =>
         {
             unsafe
             {
-                var parameters = VhacdParameters.Default;
-                IntPtr paramPtr = Marshal.AllocHGlobal(Marshal.SizeOf(parameters));
-                Marshal.StructureToPtr(parameters, paramPtr, false);
-                var iVhacd = UnityVhacd.CreateVHACD(paramPtr);
+                Vector3* pVerts = (Vector3*) vertices.GetUnsafePtr();
+                int* pTris = (int*) indices.GetUnsafePtr();
 
-                var cb = new UnityVhacd.UserCallback(UserCallback);
-                var cbPtr = Marshal.GetFunctionPointerForDelegate(cb);
-
-
-                fixed (Vector3* pVerts = verts)
-                fixed (int* pTris = tris)
-                {
-                    bool res = UnityVhacd.Compute(
-                        iVhacd,
-                        (float*) pVerts, (uint) verts.Length,
-                        (uint*) pTris, (uint) tris.Length / 3,
-                        paramPtr, cbPtr);
-                    Debug.Log("compute vhacd: " + res);
-                }
-
-                uint nConvexHulls = UnityVhacd.GetNConvexHulls(iVhacd);
-                Debug.Log("n convex hulls: " + nConvexHulls);
-                for (uint i = 0; i < nConvexHulls; i++)
-                {
-                    IntPtr hullPointer = Marshal.AllocHGlobal(Marshal.SizeOf<VhacdConvexHull>());
-                    UnityVhacd.GetConvexHull(out var handle, iVhacd, i, hullPointer);
-                    var hull = Marshal.PtrToStructure<VhacdConvexHull>(hullPointer);
-                    var hullVerts = new Vector3[hull.NPoints];
-                    fixed (Vector3* pHullVerts = hullVerts)
-                    {
-                        var pComponents = hull.Points;
-                        var pVerts = pHullVerts;
-
-                        for (var pointCount = hull.NPoints; pointCount != 0; --pointCount)
-                        {
-                            pVerts->x = (float) pComponents->X;
-                            pVerts->y = (float) pComponents->Y;
-                            pVerts->z = (float) pComponents->Z;
-
-                            pVerts += 1;
-                            pComponents += 1;
-                        }
-                    }
-
-                    var indices = new int[hull.NTriangles * 3];
-                    var pTriangle = hull.Triangles;
-                    for (var triangleCount = 0; triangleCount < hull.NTriangles; triangleCount += 1)
-                    {
-                        indices[triangleCount * 3 + 0] = (int) (pTriangle->Index0);
-                        indices[triangleCount * 3 + 1] = (int) (pTriangle->Index1);
-                        indices[triangleCount * 3 + 2] = (int) (pTriangle->Index2);
-
-                        pTriangle++;
-                    }
-
-                    convexHulls.Add((hullVerts, indices));
-
-                    Marshal.FreeHGlobal(hullPointer);
-                    handle.Dispose();
-                }
-
-
-                Marshal.FreeHGlobal(paramPtr);
-                UnityVhacd.ReleaseVHACD(iVhacd);
+                computeVhacd = UnityVhacd.Compute(
+                    iVhacd,
+                    (float*) pVerts, (uint) vertices.Length,
+                    (uint*) pTris, (uint) indices.Length / 3,
+                    paramPtr, cbPtr);
+                Debug.Log("compute vhacd: " + computeVhacd);
             }
         });
-        await UniTask.SwitchToMainThread();
-        CreateDecomposedMesh(convexHulls);
+        stopwatch.Stop();
+
+        if (!computeVhacd)
+        {
+            Debug.LogError("Failed to compute VHACD decomposition");
+            return new Mesh.MeshDataArray();
+        }
+        Debug.Log("VHACD took: " + stopwatch.ElapsedMilliseconds + "ms");
+
+        int nConvexHulls = (int) UnityVhacd.GetNConvexHulls(iVhacd);
+        Debug.Log("n convex hulls: " + nConvexHulls);
+
+        var meshDataArray = Mesh.AllocateWritableMeshData(nConvexHulls);
+        for (int i = 0; i < nConvexHulls; i++)
+        {
+            unsafe
+            {
+                IntPtr hullPointer = Marshal.AllocHGlobal(Marshal.SizeOf<VhacdConvexHull>());
+                UnityVhacd.GetConvexHull(out var handle, iVhacd, (uint) i, hullPointer);
+                var hull = Marshal.PtrToStructure<VhacdConvexHull>(hullPointer);
+
+                var meshData = meshDataArray[i];
+                meshData.SetVertexBufferParams((int) hull.NPoints,
+                    new VertexAttributeDescriptor(VertexAttribute.Position));
+                var vertexData = meshData.GetVertexData<Vector3>();
+                var hullVertex = hull.Points;
+                for (int vertIdx = 0; vertIdx < hull.NPoints; vertIdx++)
+                {
+                    vertexData[vertIdx] =
+                        new Vector3((float) hullVertex->X, (float) hullVertex->Y, (float) hullVertex->Z);
+                    hullVertex++;
+                }
+
+                meshData.SetIndexBufferParams((int) hull.NTriangles * 3, IndexFormat.UInt16);
+                var indexData = meshData.GetIndexData<ushort>();
+                var pTriangle = hull.Triangles;
+                for (int triangleCount = 0; triangleCount < hull.NTriangles; triangleCount += 1)
+                {
+                    indexData[triangleCount * 3 + 0] = (ushort) (pTriangle->Index0);
+                    indexData[triangleCount * 3 + 1] = (ushort) (pTriangle->Index1);
+                    indexData[triangleCount * 3 + 2] = (ushort) (pTriangle->Index2);
+
+                    pTriangle++;
+                }
+
+                meshData.subMeshCount = 1;
+                meshData.SetSubMesh(0, new SubMeshDescriptor(0, indexData.Length), MeshUpdateFlags.DontValidateIndices);
+
+                Marshal.FreeHGlobal(hullPointer);
+                handle.Dispose();
+            }
+        }
+
+        Marshal.FreeHGlobal(paramPtr);
+        UnityVhacd.ReleaseVHACD(iVhacd);
+        return meshDataArray;
     }
 
-    private void CreateDecomposedMesh(List<(Vector3[], int[])> convexHulls)
+    private void CreateDecomposedMesh(Mesh.MeshDataArray convexHulls)
     {
         int colorCycleLen = _colorCycle.Length;
         GameObject decomposedMesh = new GameObject("Decomposed Mesh");
-        for (int i = 0; i < convexHulls.Count; i++)
+        Mesh[] meshArray = new Mesh[convexHulls.Length];
+        for (int i = 0; i < convexHulls.Length; i++)
         {
             Mesh m = new Mesh();
-            m.SetVertices(convexHulls[i].Item1);
-            m.SetTriangles(convexHulls[i].Item2, 0);
-            m.RecalculateBounds();
-            m.RecalculateNormals();
-            m.Optimize();
-
+            meshArray[i] = m;
+            
             GameObject go = new GameObject("Convex Hull " + i);
             go.transform.SetParent(decomposedMesh.transform);
             go.AddComponent<MeshFilter>().sharedMesh = m;
@@ -135,6 +166,14 @@ public class TestVHACD : MonoBehaviour
             var meshCollider = go.AddComponent<MeshCollider>();
             meshCollider.sharedMesh = m;
             meshCollider.convex = true;
+        }
+
+        Mesh.ApplyAndDisposeWritableMeshData(convexHulls, meshArray);
+        foreach (var mesh in meshArray)
+        {
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+            mesh.Optimize();
         }
     }
 
