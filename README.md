@@ -1,3 +1,7 @@
+# Asynchronous Unity V-HACD plugin
+![image](https://github.com/voonfoo/VHACDUnity4/assets/32300067/9e712099-c0b6-4c34-936a-5a88368c947e)
+
+
 # The V-HACD library decomposes a 3D surface into a set of "near" convex parts.
 
 ![Approximate convex decomposition of "Camel"](doc/acd.png)
