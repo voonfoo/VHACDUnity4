@@ -32,19 +32,18 @@ uint32_t GetNConvexHulls(VHACD::IVHACD *iface) {
     return iface->GetNConvexHulls();
 }
 
-void GetConvexHull(UnityConvexHullSafetyHandle* handle, VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh) {
+VHACD::IVHACD::ConvexHull* GetConvexHull(VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh){
     auto *ch = new VHACD::IVHACD::ConvexHull();
     iface->GetConvexHull(index, *ch);
 
-    *handle = reinterpret_cast<UnityConvexHullSafetyHandle>(&ch->m_points);
     unityCh->points = ch->m_points.data();
     unityCh->n_points = static_cast<int>(ch->m_points.size());
     unityCh->triangles = ch->m_triangles.data();
     unityCh->n_triangles = static_cast<int>(ch->m_triangles.size());
+    return ch;
 }
 
-void ReleaseConvexHull(UnityConvexHullSafetyHandle handle) {
-    auto ch = reinterpret_cast<VHACD::IVHACD::ConvexHull*>(handle);
+void DeleteConvexHull(VHACD::IVHACD::ConvexHull *ch) {
     delete ch;
 }
 

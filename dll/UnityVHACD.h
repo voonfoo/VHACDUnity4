@@ -70,10 +70,9 @@ UNITYVHACD_API bool Compute(VHACD::IVHACD *iface,
 
 UNITYVHACD_API uint32_t GetNConvexHulls(VHACD::IVHACD *iface);
 
-UNITYVHACD_API void GetConvexHull(UnityConvexHullSafetyHandle *handle, VHACD::IVHACD *iface, uint32_t index,
-                                  UnityConvexHull *unityCh);
+UNITYVHACD_API VHACD::IVHACD::ConvexHull* GetConvexHull(VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh);
 
-UNITYVHACD_API void ReleaseConvexHull(UnityConvexHullSafetyHandle handle);
+UNITYVHACD_API void DeleteConvexHull(VHACD::IVHACD::ConvexHull *ch);
 
 UNITYVHACD_API void ReleaseVHACD(VHACD::IVHACD *iface);
 #ifdef __cplusplus
