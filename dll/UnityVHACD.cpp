@@ -32,7 +32,7 @@ uint32_t GetNConvexHulls(VHACD::IVHACD *iface) {
     return iface->GetNConvexHulls();
 }
 
-VHACD::IVHACD::ConvexHull* GetConvexHull(VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh){
+VHACD::IVHACD::ConvexHull* GetConvexHull2(VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh){
     auto *ch = new VHACD::IVHACD::ConvexHull();
     iface->GetConvexHull(index, *ch);
 
