@@ -26,9 +26,9 @@
 typedef intptr_t UnityConvexHullSafetyHandle;
 
 struct UnityConvexHull {
-    VHACD::Vertex *points;
+    const VHACD::Vertex *points;
     uint32_t n_points;
-    VHACD::Triangle *triangles;
+    const VHACD::Triangle *triangles;
     uint32_t n_triangles;
 };
 
