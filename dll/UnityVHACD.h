@@ -26,9 +26,9 @@
 typedef intptr_t UnityConvexHullSafetyHandle;
 
 struct UnityConvexHull {
-    VHACD::Vertex *points;
+    const VHACD::Vertex *points;
     uint32_t n_points;
-    VHACD::Triangle *triangles;
+    const VHACD::Triangle *triangles;
     uint32_t n_triangles;
 };
 
@@ -70,7 +70,7 @@ UNITYVHACD_API bool Compute(VHACD::IVHACD *iface,
 
 UNITYVHACD_API uint32_t GetNConvexHulls(VHACD::IVHACD *iface);
 
-UNITYVHACD_API VHACD::IVHACD::ConvexHull* GetConvexHull2(VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh);
+UNITYVHACD_API VHACD::IVHACD::ConvexHull* GetConvexHull(VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh);
 
 UNITYVHACD_API void DeleteConvexHull(VHACD::IVHACD::ConvexHull *ch);
 

@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Microsoft.Win32.SafeHandles;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
@@ -17,7 +16,7 @@ namespace Vhacd
 #if UNITY_EDITOR
         private const string DLLName = "UnityVHACD";
 #elif (UNITY_IOS && !UNITY_EDITOR)
-        private const string DLL_NAME = "__Internal";
+        private const string DLLName = "__Internal";
 #endif
 
         /// <summary>
@@ -38,12 +37,11 @@ namespace Vhacd
         [DllImport(DLLName)]
         private static extern uint GetNConvexHulls(IntPtr iVhacd);
 
-        [DllImport(DLLName)]
-        private static extern void GetConvexHull(out ConvexHullSafeHandle handle, IntPtr iVhacd, uint index,
-            IntPtr convexHull);
+        [DllImport(DLLName, EntryPoint = "GetConvexHull")]
+        private static extern IntPtr GetConvexHull(IntPtr iVhacd, uint index, IntPtr convexHull);
 
-        [DllImport(DLLName)]
-        public static extern void ReleaseConvexHull(IntPtr handle);
+        [DllImport(DLLName, EntryPoint = "DeleteConvexHull")]
+        private static extern void DeleteConvexHull(IntPtr handle);
 
         [DllImport(DLLName)]
         private static extern void ReleaseVHACD(IntPtr iVhacd);
@@ -53,14 +51,16 @@ namespace Vhacd
         /// <summary>
         /// vhacd parameter pointer
         /// </summary>
-        private readonly IntPtr _paramPtr;
+        private IntPtr _paramPtr;
 
         /// <summary>
         /// ivhacd pointer
         /// </summary>
-        private readonly IntPtr _vhacdPtr;
+        private IntPtr _vhacdPtr;
 
         private bool _result;
+        private bool _disposed;
+        private readonly object _lock = new object();
 
         /// <summary>
         /// Constructor
@@ -69,8 +69,24 @@ namespace Vhacd
         public UnityVhacd(VhacdParameters parameters)
         {
             _paramPtr = Marshal.AllocHGlobal(Marshal.SizeOf(parameters));
-            Marshal.StructureToPtr(parameters, _paramPtr, false);
-            _vhacdPtr = CreateVHACD(_paramPtr);
+            try
+            {
+                Marshal.StructureToPtr(parameters, _paramPtr, false);
+                _vhacdPtr = CreateVHACD(_paramPtr);
+                if (_vhacdPtr == IntPtr.Zero)
+                {
+                    throw new InvalidOperationException("Failed to create VHACD instance");
+                }
+            }
+            catch
+            {
+                if (_paramPtr != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(_paramPtr);
+                    _paramPtr = IntPtr.Zero;
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -81,29 +97,60 @@ namespace Vhacd
         /// <returns></returns>
         public bool ConvexDecompose(Mesh mesh, UserCallback cb = null)
         {
-            using var meshDataArray = Mesh.AcquireReadOnlyMeshData(mesh);
-            var meshData = meshDataArray[0];
-            var vertices = new NativeArray<Vector3>(mesh.vertexCount, Allocator.Persistent);
-            meshData.GetVertices(vertices);
-            var indices = new NativeArray<int>((int) mesh.GetIndexCount(0), Allocator.Persistent);
-            meshData.GetIndices(indices, 0);
+            ThrowIfDisposed();
+            
+            if (mesh == null)
+                throw new ArgumentNullException(nameof(mesh));
 
-            if (cb == null)
-                cb = (_, _, _, _) => { };
-            var cbPtr = Marshal.GetFunctionPointerForDelegate(cb);
-
-            unsafe
+            lock (_lock)
             {
-                Vector3* pVerts = (Vector3*) vertices.GetUnsafePtr();
-                int* pTris = (int*) indices.GetUnsafePtr();
-                _result = Compute(_vhacdPtr, (float*) pVerts, (uint) vertices.Length,
-                    (uint*) pTris, (uint) indices.Length / 3,
-                    _paramPtr, cbPtr);
-            }
+                using var meshDataArray = Mesh.AcquireReadOnlyMeshData(mesh);
+                var meshData = meshDataArray[0];
+                var vertices = new NativeArray<Vector3>(mesh.vertexCount, Allocator.Persistent);
+                var indices = new NativeArray<int>((int)mesh.GetIndexCount(0), Allocator.Persistent);
+                
+                try
+                {
+                    meshData.GetVertices(vertices);
+                    meshData.GetIndices(indices, 0);
 
-            vertices.Dispose();
-            indices.Dispose();
-            return _result;
+                    // Pin the delegate to prevent GC collection during native call
+                    GCHandle callbackHandle = default;
+                    IntPtr cbPtr = IntPtr.Zero;
+                    
+                    if (cb != null)
+                    {
+                        callbackHandle = GCHandle.Alloc(cb);
+                        cbPtr = Marshal.GetFunctionPointerForDelegate(cb);
+                    }
+
+                    try
+                    {
+                        unsafe
+                        {
+                            Vector3* pVerts = (Vector3*)vertices.GetUnsafePtr();
+                            int* pTris = (int*)indices.GetUnsafePtr();
+                            _result = Compute(_vhacdPtr, (float*)pVerts, (uint)vertices.Length,
+                                (uint*)pTris, (uint)indices.Length / 3,
+                                _paramPtr, cbPtr);
+                        }
+                    }
+                    finally
+                    {
+                        if (callbackHandle.IsAllocated)
+                        {
+                            callbackHandle.Free();
+                        }
+                    }
+                }
+                finally
+                {
+                    vertices.Dispose();
+                    indices.Dispose();
+                }
+
+                return _result;
+            }
         }
 
         /// <summary>
@@ -114,31 +161,62 @@ namespace Vhacd
         /// <returns></returns>
         public async Task<bool> ConvexDecomposeAsync(Mesh mesh, UserCallback cb = null)
         {
+            ThrowIfDisposed();
+            
+            if (mesh == null)
+                throw new ArgumentNullException(nameof(mesh));
+
             using var meshDataArray = Mesh.AcquireReadOnlyMeshData(mesh);
             var meshData = meshDataArray[0];
             var vertices = new NativeArray<Vector3>(mesh.vertexCount, Allocator.Persistent);
-            meshData.GetVertices(vertices);
-            var indices = new NativeArray<int>((int) mesh.GetIndexCount(0), Allocator.Persistent);
-            meshData.GetIndices(indices, 0);
+            var indices = new NativeArray<int>((int)mesh.GetIndexCount(0), Allocator.Persistent);
 
-            if (cb == null)
-                cb = (_, _, _, _) => { };
-            var cbPtr = Marshal.GetFunctionPointerForDelegate(cb);
-
-            await Task.Run(() =>
+            try
             {
-                unsafe
-                {
-                    Vector3* pVerts = (Vector3*) vertices.GetUnsafePtr();
-                    int* pTris = (int*) indices.GetUnsafePtr();
-                    _result = Compute(_vhacdPtr, (float*) pVerts, (uint) vertices.Length,
-                        (uint*) pTris, (uint) indices.Length / 3,
-                        _paramPtr, cbPtr);
-                }
-            });
+                meshData.GetVertices(vertices);
+                meshData.GetIndices(indices, 0);
 
-            vertices.Dispose();
-            indices.Dispose();
+                // Pin the delegate to prevent GC collection during native call
+                GCHandle callbackHandle = default;
+                IntPtr cbPtr = IntPtr.Zero;
+                
+                if (cb != null)
+                {
+                    callbackHandle = GCHandle.Alloc(cb);
+                    cbPtr = Marshal.GetFunctionPointerForDelegate(cb);
+                }
+
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        lock (_lock)
+                        {
+                            unsafe
+                            {
+                                Vector3* pVerts = (Vector3*)vertices.GetUnsafePtr();
+                                int* pTris = (int*)indices.GetUnsafePtr();
+                                _result = Compute(_vhacdPtr, (float*)pVerts, (uint)vertices.Length,
+                                    (uint*)pTris, (uint)indices.Length / 3,
+                                    _paramPtr, cbPtr);
+                            }
+                        }
+                    });
+                }
+                finally
+                {
+                    if (callbackHandle.IsAllocated)
+                    {
+                        callbackHandle.Free();
+                    }
+                }
+            }
+            finally
+            {
+                vertices.Dispose();
+                indices.Dispose();
+            }
+
             return _result;
         }
 
@@ -148,8 +226,14 @@ namespace Vhacd
         /// <returns></returns>
         public int GetNConvexHulls()
         {
+            ThrowIfDisposed();
+            
             if (!_result) return 0;
-            return (int) GetNConvexHulls(_vhacdPtr);
+            
+            lock (_lock)
+            {
+                return (int)GetNConvexHulls(_vhacdPtr);
+            }
         }
 
         /// <summary>
@@ -159,19 +243,48 @@ namespace Vhacd
         /// <returns></returns>
         public VhacdConvexHull GetConvexHull(int index)
         {
-            if (!_result) throw new InvalidOperationException("Decomposition failed. There is no convex hulls.");
+            ThrowIfDisposed();
+            
+            if (!_result) 
+                throw new InvalidOperationException("Decomposition failed. There are no convex hulls.");
+            
             int numConvexHulls = GetNConvexHulls();
-            if (index >= numConvexHulls)
+            if (index < 0 || index >= numConvexHulls)
             {
                 throw new IndexOutOfRangeException(
                     $"Index out of range. There are only {numConvexHulls} convex hulls.");
             }
 
-            IntPtr hullPointer = Marshal.AllocHGlobal(Marshal.SizeOf<VhacdConvexHull>());
-            GetConvexHull(out var handle, _vhacdPtr, (uint) index, hullPointer);
-            var hull = Marshal.PtrToStructure<VhacdConvexHull>(hullPointer);
-            handle.Dispose();
-            return hull;
+            lock (_lock)
+            {
+                IntPtr hullPointer = IntPtr.Zero;
+                IntPtr convexHullHandle = IntPtr.Zero;
+                
+                try
+                {
+                    hullPointer = Marshal.AllocHGlobal(Marshal.SizeOf<VhacdConvexHull>());
+                    convexHullHandle = GetConvexHull(_vhacdPtr, (uint)index, hullPointer);
+                    
+                    if (convexHullHandle == IntPtr.Zero)
+                    {
+                        throw new InvalidOperationException("Failed to get convex hull from native library");
+                    }
+                    
+                    var hull = Marshal.PtrToStructure<VhacdConvexHull>(hullPointer);
+                    
+                    // Clean up native convex hull handle
+                    DeleteConvexHull(convexHullHandle);
+                    
+                    return hull;
+                }
+                finally
+                {
+                    if (hullPointer != IntPtr.Zero)
+                    {
+                        Marshal.FreeHGlobal(hullPointer);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -180,47 +293,77 @@ namespace Vhacd
         /// <returns></returns>
         public Mesh.MeshDataArray ConvertConvexHullsIntoMesh()
         {
-            if (!_result) throw new InvalidOperationException("Decomposition failed. There is no convex hulls.");
+            ThrowIfDisposed();
+            
+            if (!_result) 
+                throw new InvalidOperationException("Decomposition failed. There are no convex hulls.");
+            
             int nConvexHulls = GetNConvexHulls();
             var meshDataArray = Mesh.AllocateWritableMeshData(nConvexHulls);
-            for (int i = 0; i < nConvexHulls; i++)
+            
+            lock (_lock)
             {
-                unsafe
+                for (int i = 0; i < nConvexHulls; i++)
                 {
-                    IntPtr hullPointer = Marshal.AllocHGlobal(Marshal.SizeOf<VhacdConvexHull>());
-                    GetConvexHull(out var handle, _vhacdPtr, (uint) i, hullPointer);
-                    var hull = Marshal.PtrToStructure<VhacdConvexHull>(hullPointer);
-
-                    var meshData = meshDataArray[i];
-                    meshData.SetVertexBufferParams((int) hull.NPoints,
-                        new VertexAttributeDescriptor(VertexAttribute.Position));
-                    var vertexData = meshData.GetVertexData<Vector3>();
-                    var hullVertex = hull.Points;
-                    for (int vertIdx = 0; vertIdx < hull.NPoints; vertIdx++)
+                    IntPtr hullPointer = IntPtr.Zero;
+                    IntPtr convexHullHandle = IntPtr.Zero;
+                    
+                    try
                     {
-                        vertexData[vertIdx] =
-                            new Vector3((float) hullVertex->X, (float) hullVertex->Y, (float) hullVertex->Z);
-                        hullVertex++;
-                    }
+                        unsafe
+                        {
+                            hullPointer = Marshal.AllocHGlobal(Marshal.SizeOf<VhacdConvexHull>());
+                            convexHullHandle = GetConvexHull(_vhacdPtr, (uint)i, hullPointer);
+                            
+                            if (convexHullHandle == IntPtr.Zero)
+                            {
+                                throw new InvalidOperationException($"Failed to get convex hull {i} from native library");
+                            }
+                            
+                            var hull = Marshal.PtrToStructure<VhacdConvexHull>(hullPointer);
 
-                    meshData.SetIndexBufferParams((int) hull.NTriangles * 3, IndexFormat.UInt16);
-                    var indexData = meshData.GetIndexData<ushort>();
-                    var pTriangle = hull.Triangles;
-                    for (int triangleCount = 0; triangleCount < hull.NTriangles; triangleCount += 1)
+                            var meshData = meshDataArray[i];
+                            meshData.SetVertexBufferParams((int)hull.NPoints,
+                                new VertexAttributeDescriptor(VertexAttribute.Position));
+                            var vertexData = meshData.GetVertexData<Vector3>();
+                            var hullVertex = hull.Points;
+                            
+                            for (int vertIdx = 0; vertIdx < hull.NPoints; vertIdx++)
+                            {
+                                vertexData[vertIdx] =
+                                    new Vector3((float)hullVertex->X, (float)hullVertex->Y, (float)hullVertex->Z);
+                                hullVertex++;
+                            }
+
+                            meshData.SetIndexBufferParams((int)hull.NTriangles * 3, IndexFormat.UInt16);
+                            var indexData = meshData.GetIndexData<ushort>();
+                            var pTriangle = hull.Triangles;
+                            
+                            for (int triangleCount = 0; triangleCount < hull.NTriangles; triangleCount += 1)
+                            {
+                                indexData[triangleCount * 3 + 0] = (ushort)(pTriangle->Index0);
+                                indexData[triangleCount * 3 + 1] = (ushort)(pTriangle->Index1);
+                                indexData[triangleCount * 3 + 2] = (ushort)(pTriangle->Index2);
+
+                                pTriangle++;
+                            }
+
+                            meshData.subMeshCount = 1;
+                            meshData.SetSubMesh(0, new SubMeshDescriptor(0, indexData.Length),
+                                MeshUpdateFlags.DontValidateIndices);
+                        }
+                    }
+                    finally
                     {
-                        indexData[triangleCount * 3 + 0] = (ushort) (pTriangle->Index0);
-                        indexData[triangleCount * 3 + 1] = (ushort) (pTriangle->Index1);
-                        indexData[triangleCount * 3 + 2] = (ushort) (pTriangle->Index2);
-
-                        pTriangle++;
+                        if (hullPointer != IntPtr.Zero)
+                        {
+                            Marshal.FreeHGlobal(hullPointer);
+                        }
+                        if (convexHullHandle != IntPtr.Zero)
+                        {
+                            DeleteConvexHull(convexHullHandle);
+                        }
                     }
-
-                    meshData.subMeshCount = 1;
-                    meshData.SetSubMesh(0, new SubMeshDescriptor(0, indexData.Length),
-                        MeshUpdateFlags.DontValidateIndices);
-
-                    Marshal.FreeHGlobal(hullPointer);
-                    handle.Dispose();
                 }
             }
 
@@ -232,27 +375,53 @@ namespace Vhacd
         /// </summary>
         public void Dispose()
         {
-            if (_paramPtr != IntPtr.Zero)
-                Marshal.FreeHGlobal(_paramPtr);
-            if (_vhacdPtr != IntPtr.Zero)
-                ReleaseVHACD(_vhacdPtr);
-        }
-    }
-
-    /// <summary>
-    /// Safe handle for convex hull disposal
-    /// </summary>
-    public class ConvexHullSafeHandle : SafeHandleZeroOrMinusOneIsInvalid
-    {
-        public ConvexHullSafeHandle()
-            : base(true)
-        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        protected override bool ReleaseHandle()
+        /// <summary>
+        /// Protected dispose method
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
         {
-            UnityVhacd.ReleaseConvexHull(handle);
-            return true;
+            if (_disposed)
+                return;
+
+            lock (_lock)
+            {
+                if (_vhacdPtr != IntPtr.Zero)
+                {
+                    ReleaseVHACD(_vhacdPtr);
+                    _vhacdPtr = IntPtr.Zero;
+                }
+
+                if (_paramPtr != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(_paramPtr);
+                    _paramPtr = IntPtr.Zero;
+                }
+
+                _disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// Finalizer
+        /// </summary>
+        ~UnityVhacd()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Throw if disposed
+        /// </summary>
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
         }
     }
 }

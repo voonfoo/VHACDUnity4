@@ -9,15 +9,18 @@ namespace Vhacd
         public IntPtr Callback;
         public IntPtr Logger;
         public IntPtr TaskRunner;
-        public int MaxConvexHulls;
-        public int MaxResolution;
+        public uint MaxConvexHulls;
+        public uint MaxResolution;
         public double MinimumVolumePercentErrorAllowed;
-        public int MaxRecursionDepth;
+        public uint MaxRecursionDepth;
+        [MarshalAs(UnmanagedType.I1)]
         public bool ShrinkWrap;
         public FillMode FillMode;
-        public int MaxNumberOfVerticesPerConvexHull;
+        public uint MaxNumberOfVerticesPerConvexHull;
+        [MarshalAs(UnmanagedType.I1)]
         public bool IsAsync;
-        public int MinEdgeLength;
+        public uint MinEdgeLength;
+        [MarshalAs(UnmanagedType.I1)]
         public bool FindBestPlane;
 
         public static VhacdParameters Default => new()
@@ -38,10 +41,10 @@ namespace Vhacd
         };
     }
 
-    public enum FillMode
+    public enum FillMode : int
     {
-        FloodFill,
-        SurfaceOnly,
-        RaycastFill
+        FloodFill = 0,
+        SurfaceOnly = 1,
+        RaycastFill = 2
     }
 }
