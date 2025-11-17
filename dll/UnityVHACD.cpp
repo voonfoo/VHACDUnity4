@@ -65,7 +65,7 @@ uint32_t GetNConvexHulls(VHACD::IVHACD *iface) {
     }
 }
 
-VHACD::IVHACD::ConvexHull* GetConvexHull2(VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh){
+VHACD::IVHACD::ConvexHull* GetConvexHull(VHACD::IVHACD *iface, uint32_t index, UnityConvexHull *unityCh){
     // Validate input parameters
     if (!iface || !unityCh) {
         return nullptr;

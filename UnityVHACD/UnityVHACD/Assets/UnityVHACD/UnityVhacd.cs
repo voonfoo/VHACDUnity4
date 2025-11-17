@@ -37,8 +37,8 @@ namespace Vhacd
         [DllImport(DLLName)]
         private static extern uint GetNConvexHulls(IntPtr iVhacd);
 
-        [DllImport(DLLName, EntryPoint = "GetConvexHull2")]
-        private static extern IntPtr GetConvexHull2(IntPtr iVhacd, uint index, IntPtr convexHull);
+        [DllImport(DLLName, EntryPoint = "GetConvexHull")]
+        private static extern IntPtr GetConvexHull(IntPtr iVhacd, uint index, IntPtr convexHull);
 
         [DllImport(DLLName, EntryPoint = "DeleteConvexHull")]
         private static extern void DeleteConvexHull(IntPtr handle);
@@ -263,7 +263,7 @@ namespace Vhacd
                 try
                 {
                     hullPointer = Marshal.AllocHGlobal(Marshal.SizeOf<VhacdConvexHull>());
-                    convexHullHandle = GetConvexHull2(_vhacdPtr, (uint)index, hullPointer);
+                    convexHullHandle = GetConvexHull(_vhacdPtr, (uint)index, hullPointer);
                     
                     if (convexHullHandle == IntPtr.Zero)
                     {
@@ -313,7 +313,7 @@ namespace Vhacd
                         unsafe
                         {
                             hullPointer = Marshal.AllocHGlobal(Marshal.SizeOf<VhacdConvexHull>());
-                            convexHullHandle = GetConvexHull2(_vhacdPtr, (uint)i, hullPointer);
+                            convexHullHandle = GetConvexHull(_vhacdPtr, (uint)i, hullPointer);
                             
                             if (convexHullHandle == IntPtr.Zero)
                             {
